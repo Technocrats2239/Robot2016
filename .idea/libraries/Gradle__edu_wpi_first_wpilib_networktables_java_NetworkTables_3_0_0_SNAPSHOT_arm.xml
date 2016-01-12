@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: edu.wpi.first.wpilib.networktables.java:NetworkTables:3.0.0-SNAPSHOT:arm">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.wpilib.networktables.java/NetworkTables/3.0.0-SNAPSHOT/cc074a764fcc4e6ef86ce10ddcbdd018f1455082/NetworkTables-3.0.0-SNAPSHOT-arm.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.wpilib.networktables.java/NetworkTables/3.0.0-SNAPSHOT/aba98473a4c93cb8fa4f2d8c87a95df6cd84baac/NetworkTables-3.0.0-SNAPSHOT-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
