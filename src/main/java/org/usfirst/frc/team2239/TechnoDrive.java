@@ -4,7 +4,9 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.RobotDrive;
 
 /**
- * Created by Robo User on 1/7/2016.
+ * Utility for driving the robot
+ *
+ * @author Dean Bassett & London Lomanstone
  */
 public class TechnoDrive extends RobotDrive {
     public static final double MAIN_SPEED = .8;
