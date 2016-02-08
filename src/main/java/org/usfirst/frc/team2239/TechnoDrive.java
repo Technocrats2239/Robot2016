@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.RobotDrive;
 /**
  * Utility for driving the robot
  *
- * @author Dean Bassett & London Lomanstone
+ * @author Dean Bassett &amp; London Lomanstone
  */
 public class TechnoDrive extends RobotDrive {
     public static final double MAIN_SPEED = .8;

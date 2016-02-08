@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import org.usfirst.frc.team2239.util.*;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 /**
@@ -13,11 +12,12 @@ import java.util.Arrays;
  * @author Technocrats
  */
 public class TechnoRobot extends IterativeRobot {
-    RobotDrive myRobot;  // class that handles basic drive operations
+    RobotDrive drive;  // class that handles basic drive operations
 
     Controller controller;  // set to ID 3 in DriverStation
     Compressor compressor;
     Catapult catapult;
+    Solenoid solenoid;
     //true is tilted forwards
     Timer timer;
     PowerDistributionPanel pdp;
@@ -29,27 +29,30 @@ public class TechnoRobot extends IterativeRobot {
      *  Method robotInit declares all devices needed, and turns on the compressor.
      */
     public void robotInit(){
-        myRobot = new TechnoDrive(1, 0);
-        myRobot.setExpiration(0.1);
-        myRobot.setSafetyEnabled(true);
+        drive = new TechnoDrive(1, 0);
+        drive.setExpiration(0.1);
+        drive.setSafetyEnabled(true);
         controller = new Controller(3);
         compressor = new Compressor();
-        catapult = new Catapult(0, 1);
+        catapult = new Catapult(0);
         timer = new Timer();
         pdp = new PowerDistributionPanel();
-        pdp.clearStickyFaults();
-        try {
-            NetworkTable.initialize();
-        } catch (IOException e) {
-            DriverStation.reportError("NetworkTable failed to initialize!", true);
-            e.printStackTrace();
-        }
-        NetworkTable.setTeam(2239);
-        NetworkTable.setServerMode();
         lines = NetworkTable.getTable("GRIP/lines");
+        compressor.stop();
     }
 
-    private int stage;
+    @Override
+    public void autonomousInit() {
+        solenoid.set(false);
+        drive.tankDrive(0,0);
+        timer.reset();
+        timer.start();
+    }
+
+    @Override
+    public void autonomousPeriodic() {
+
+    }
 
     @Override
     /**
@@ -58,7 +61,6 @@ public class TechnoRobot extends IterativeRobot {
     public void testInit(){
         compressor.stop();
         timer.start();
-        stage = 0;
     }
 
     @Override
@@ -83,14 +85,15 @@ public class TechnoRobot extends IterativeRobot {
     @Override
     /**
      * Called when teleOp period starts
-     *  When myRobot.setSafetyEnabled is true it will send you errors that the robot is not
+     *  When drive.setSafetyEnabled is true it will send you errors that the robot is not
      * receiving commands.
      */
     public void teleopInit() {
         timer.stop();
         timer.reset(); //stops and resets the timer
-        myRobot.setSafetyEnabled(true);
-        myRobot.tankDrive(0, 0); //resets the speed to 0
+        compressor.start();
+        drive.setSafetyEnabled(true);
+        drive.tankDrive(0, 0); //resets the speed to 0
     }
 
     @Override
@@ -99,16 +102,18 @@ public class TechnoRobot extends IterativeRobot {
      */
     public void teleopPeriodic(){
         catapult.update();
-        myRobot.tankDrive(controller.getY(GenericHID.Hand.kLeft), controller.getY(GenericHID.Hand.kRight));
 
-        if (controller.getBumper(GenericHID.Hand.kLeft)) {
+        drive.tankDrive(-controller.getY(GenericHID.Hand.kLeft), -controller.getY(GenericHID.Hand.kRight));
+        System.out.printf("%.2f,%.2f", -controller.getY(GenericHID.Hand.kLeft), -controller.getY(GenericHID.Hand.kRight));
+
+        if(controller.getBumper(GenericHID.Hand.kLeft)) {
             catapult.launch();
         }
 
         if (controller.getBumper(GenericHID.Hand.kRight)) {
             compressor.setClosedLoopControl(!compressor.getClosedLoopControl());
 
-            while (controller.getBumper(GenericHID.Hand.kRight));
+            while (controller.getBumper(GenericHID.Hand.kRight)); //pause until bumper is released
         }
     }
 }
