@@ -12,15 +12,15 @@ import java.util.Arrays;
  * @author Technocrats
  */
 public class TechnoRobot extends IterativeRobot {
-    RobotDrive drive;  // class that handles basic drive operations
+    public static TechnoRobot instance;
 
+    public TechnoDrive drive;  // class that handles basic drive operations
     Controller controller;  // set to ID 3 in DriverStation
     Compressor compressor;
-    Catapult catapult;
-    Solenoid solenoid;
-    //true is tilted forwards
+    DasBoot boot;
+    BallCollector collector;
+    AccelerationUtil accelerator;
     Timer timer;
-    PowerDistributionPanel pdp;
     NetworkTable lines;
 
 
@@ -29,21 +29,22 @@ public class TechnoRobot extends IterativeRobot {
      *  Method robotInit declares all devices needed, and turns on the compressor.
      */
     public void robotInit(){
-        drive = new TechnoDrive(1, 0);
+        instance = this;
+        drive = new TechnoDrive(0, 1, 2, 3);
         drive.setExpiration(0.1);
         drive.setSafetyEnabled(true);
         controller = new Controller(3);
         compressor = new Compressor();
-        catapult = new Catapult(0);
+        collector = new BallCollector(4);
         timer = new Timer();
-        pdp = new PowerDistributionPanel();
+        accelerator = new AccelerationUtil(drive);
         lines = NetworkTable.getTable("GRIP/lines");
+        boot = new DasBoot(5);
         compressor.stop();
     }
 
     @Override
     public void autonomousInit() {
-        solenoid.set(false);
         drive.tankDrive(0,0);
         timer.reset();
         timer.start();
@@ -51,7 +52,7 @@ public class TechnoRobot extends IterativeRobot {
 
     @Override
     public void autonomousPeriodic() {
-
+        accelerator.update();
     }
 
     @Override
@@ -101,19 +102,22 @@ public class TechnoRobot extends IterativeRobot {
      * Manual control over the robot during the competition
      */
     public void teleopPeriodic(){
-        catapult.update();
+        boot.update();
+        collector.update();
+        accelerator.update();
 
         drive.tankDrive(-controller.getY(GenericHID.Hand.kLeft), -controller.getY(GenericHID.Hand.kRight));
-        System.out.printf("%.2f,%.2f", -controller.getY(GenericHID.Hand.kLeft), -controller.getY(GenericHID.Hand.kRight));
 
         if(controller.getBumper(GenericHID.Hand.kLeft)) {
-            catapult.launch();
+            boot.kick();
         }
 
-        if (controller.getBumper(GenericHID.Hand.kRight)) {
-            compressor.setClosedLoopControl(!compressor.getClosedLoopControl());
-
-            while (controller.getBumper(GenericHID.Hand.kRight)); //pause until bumper is released
+        if(controller.getBumper(GenericHID.Hand.kRight)) {
+            collector.start();
         }
+    }
+
+    public static AccelerationUtil getAccelerator() {
+        return instance.accelerator;
     }
 }

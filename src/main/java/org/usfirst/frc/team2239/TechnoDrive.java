@@ -57,4 +57,10 @@ public class TechnoDrive extends RobotDrive {
     public void tankDrive(double left, double right, boolean squared) {
         super.tankDrive(left, right, squared);
     }
+
+    public void turnRight() {
+        //how I want to turn right
+
+    }
+
 }
