@@ -1,6 +1,5 @@
 package org.usfirst.frc.team2239.autonomous;
 
-import edu.wpi.first.wpilibj.Timer;
 import org.usfirst.frc.team2239.TechnoRobot;
 
 /**
@@ -8,16 +7,10 @@ import org.usfirst.frc.team2239.TechnoRobot;
  *
  * @author Technocrats
  */
-public class HarderLowbar extends AutoFunction {
-    //timer keeps track of time from the start of the init in seconds
-    private Timer timer;
-    private int stage;
+public class DoNothing extends AutoFunction {
 
     @Override
     public void onStart(TechnoRobot robot) {
-        timer = new Timer();
-        timer.start();
-        stage = 0;
     }
 
     @Override

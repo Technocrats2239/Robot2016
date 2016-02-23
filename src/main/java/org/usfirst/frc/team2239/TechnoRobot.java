@@ -52,8 +52,8 @@ public class TechnoRobot extends IterativeRobot {
         //set up the autochooser
         //from http://wpilib.screenstepslive.com/s/4485/m/26401/l/255419-choosing-an-autonomous-program-from-smartdashboard
         autoChooser = new SendableChooser();
-        autoChooser.addDefault("Easy Lowbar (default)", new EasyLowbar());
-        autoChooser.addObject("Harder Lowbar", new HarderLowbar());
+        autoChooser.addDefault("Do Nothing", new DoNothing());
+        autoChooser.addObject("Easy Lowbar", new Lowbar());
         SmartDashboard.putData("Autonomous mode chooser", autoChooser);
     }
 

@@ -8,7 +8,7 @@ import org.usfirst.frc.team2239.TechnoRobot;
  *
  * @author Technocrats
  */
-public class EasyLowbar extends AutoFunction {
+public class Lowbar extends AutoFunction {
     //timer keeps track of time from the start of the current stage in seconds
     private Timer timer;
     //the current stage of movement
