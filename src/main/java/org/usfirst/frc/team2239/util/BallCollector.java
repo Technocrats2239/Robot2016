@@ -18,17 +18,17 @@ public class BallCollector {
         motor.setInverted(true);
     }
 
+    //to spit the boulder out
+    public void spit() {
+        motor.set(-1);
+    }
+
     //to suck the boulder in
-    public void in() {
-        motor.set(.5);
+    public void swallow() {
+        motor.set(.75);
     }
 
     public void stop() {
         motor.set(0);
-    }
-
-    //to spit the boulder out
-    public void out() {
-        motor.set(-1);
     }
 }

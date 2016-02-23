@@ -146,19 +146,12 @@ public class TechnoRobot extends IterativeRobot {
         }
 
         if (controller.getTrigger(GenericHID.Hand.kLeft)) {
-            collector.in();
+            collector.swallow();
         } else if (controller.getTrigger(GenericHID.Hand.kRight)) {
-            collector.out();
+            collector.spit();
         } else {
             collector.stop();
         }
-
-        /*
-        if (controller.getBu(GenericHID.Hand.kLeft)) {
-            //arm.refresh();
-            direction = -direction; //reverse the direction
-        }
-        */
     }
 
     private int getSign(double val) {

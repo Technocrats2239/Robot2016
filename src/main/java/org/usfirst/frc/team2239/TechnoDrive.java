@@ -21,12 +21,6 @@ public class TechnoDrive extends RobotDrive {
                 new CANTalon(frontRightMotor), new CANTalon(rearRightMotor)); //calls the RobotDrive constructor
     }
 
-    private void setupMotorSafety() {
-        m_safetyHelper = new MotorSafetyHelper(this);
-        m_safetyHelper.setExpiration(kDefaultExpirationTime);
-        m_safetyHelper.setSafetyEnabled(true);
-    }
-
     public double[] getMotorValues() {
         return new double[] {super.m_rearLeftMotor.get(), -super.m_rearRightMotor.get()};
     }

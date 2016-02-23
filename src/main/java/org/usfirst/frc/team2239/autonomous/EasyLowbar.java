@@ -36,16 +36,16 @@ public class EasyLowbar extends AutoFunction {
 
         switch (stage) {
             case 0:
-                theRobot.drive.tankDrive(.6, .6); //go forwards
+                theRobot.drive.accelerateTo(.6, .6); //go forwards
                 break;
             case 1:
-                theRobot.drive.tankDrive(1, 0); //turn right
+                theRobot.drive.accelerateTo(1, 0); //turn right
                 break;
             case 2:
-                theRobot.drive.tankDrive(.6, .6); //go forwards
+                theRobot.drive.accelerateTo(.6, .6); //go forwards
                 break;
             case 3:
-                theRobot.collector.out(); //spit out the ball
+                theRobot.collector.spit(); //spit out the ball
                 break;
             default:
                 //do nothing
