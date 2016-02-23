@@ -15,6 +15,5 @@ public class DoNothing extends AutoFunction {
 
     @Override
     public void onUpdate() {
-
     }
 }

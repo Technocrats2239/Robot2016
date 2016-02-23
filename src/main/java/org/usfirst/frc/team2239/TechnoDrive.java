@@ -15,7 +15,6 @@ public class TechnoDrive extends RobotDrive {
         super(new CANTalon(leftMotorChannel), new CANTalon(rightMotorChannel));
     }
 
-    //todo test this (setupCANTalon has not been tested yet. It worked without it before.)
     public TechnoDrive(int frontLeftMotor, int rearLeftMotor, int frontRightMotor, int rearRightMotor) {
         super(new CANTalon(frontLeftMotor), new CANTalon(rearLeftMotor),
                 new CANTalon(frontRightMotor), new CANTalon(rearRightMotor)); //calls the RobotDrive constructor
