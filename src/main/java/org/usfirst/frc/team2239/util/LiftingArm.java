@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2239.util;
 
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,9 +22,10 @@ public class LiftingArm {
     }
 
     public void refresh() {
-        speed = SmartDashboard.getNumber("ArmSpeed", .5);
+        speed = Preferences.getInstance().getDouble("ArmSpeed", .5);
         System.out.println("New arm speed: " + speed);
     }
+
     public void lift() {
         timer.start();
         motor.set(speed);
