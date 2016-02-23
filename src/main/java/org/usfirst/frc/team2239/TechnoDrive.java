@@ -12,21 +12,13 @@ public class TechnoDrive extends RobotDrive {
     public static final double MAIN_SPEED = 1;
 
     public TechnoDrive(int leftMotorChannel, int rightMotorChannel) {
-        super(setupCANTalon(leftMotorChannel), setupCANTalon(rightMotorChannel));
+        super(new CANTalon(leftMotorChannel), new CANTalon(rightMotorChannel));
     }
 
     //todo test this (setupCANTalon has not been tested yet. It worked without it before.)
     public TechnoDrive(int frontLeftMotor, int rearLeftMotor, int frontRightMotor, int rearRightMotor) {
-        super(setupCANTalon(frontLeftMotor), setupCANTalon(rearLeftMotor),
-                setupCANTalon(frontRightMotor), setupCANTalon(rearRightMotor)); //calls the RobotDrive constructor
-    }
-
-    //sets the voltage ramp rate so that the motors can't go as fast as possible right away, they must ramp up.
-    //needs to be static so that we can call it inside the super call.
-    private static CANTalon setupCANTalon(int channel) {
-        CANTalon theMotor = new CANTalon(channel);
-        //theMotor.setVoltageRampRate(1.5); //deleted to see if this will run better
-        return theMotor;
+        super(new CANTalon(frontLeftMotor), new CANTalon(rearLeftMotor),
+                new CANTalon(frontRightMotor), new CANTalon(rearRightMotor)); //calls the RobotDrive constructor
     }
 
     private void setupMotorSafety() {
