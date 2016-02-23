@@ -4,26 +4,24 @@ import edu.wpi.first.wpilibj.Timer;
 import org.usfirst.frc.team2239.TechnoRobot;
 
 /**
- * (description)
+ * What to do if in front of the Low Bar
  *
- * @author (name)
+ * @author Technocrats
  */
-public class Lowbar extends AutonomousFunction {
+public class HarderLowbar extends AutoFunction {
+    //timer keeps track of time from the start of the init in seconds
     private Timer timer;
     private int stage;
-    public Lowbar() {
-        super("lowbar");
-    }
 
     @Override
-    protected void onStart() {
+    public void onStart(TechnoRobot robot) {
         timer = new Timer();
         timer.start();
         stage = 0;
     }
 
     @Override
-    protected void onUpdate() {
-        TechnoRobot.instance.drive.turnRight();
+    public void onUpdate() {
+
     }
 }

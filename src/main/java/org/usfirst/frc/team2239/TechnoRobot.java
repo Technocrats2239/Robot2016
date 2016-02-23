@@ -1,10 +1,10 @@
 package org.usfirst.frc.team2239;
 
+import org.usfirst.frc.team2239.autonomous.*;
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import org.usfirst.frc.team2239.util.*;
-
-import java.util.Arrays;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Technocrat's game handler
@@ -12,75 +12,62 @@ import java.util.Arrays;
  * @author Technocrats
  */
 public class TechnoRobot extends IterativeRobot {
+    //Almost all values range from -1.0 to 1.0 (like setting motor values or getting joystick values)
+    //Also, when getting values from the joysticks, they are negated to reverse the direction before being passed to any other function.
+
     public static TechnoRobot instance;
+    //from http://wpilib.screenstepslive.com/s/4485/m/26401/l/255419-choosing-an-autonomous-program-from-smartdashboard
+    private SendableChooser autoChooser;
 
     public TechnoDrive drive;  // class that handles basic drive operations
-    Controller controller;  // set to ID 3 in DriverStation
-    Compressor compressor;
-    DasBoot boot;
-    BallCollector collector;
-    AccelerationUtil accelerator;
-    Timer timer;
-    NetworkTable lines;
+    public Controller controller;  // set to ID 3 in DriverStation
+    public LiftingArm arm;
+    public BallCollector collector;
+    public int direction = 1; //ONLY FOR TELEOP REMOTE DRIVING: 1 means the ball collector is the front, -1 means the arm is in the front
+    private int switchDirection = 0; //0 when waiting for the button to be pressed. Once pressed, it switches the direction and then switchDirection is 1 until the button is released
+
+    private Timer timer;
+    private AutoFunction auto;
 
 
     @Override
     /**
      *  Method robotInit declares all devices needed, and turns on the compressor.
      */
-    public void robotInit(){
+    public void robotInit() {
         instance = this;
-        drive = new TechnoDrive(0, 1, 2, 3);
+        drive = new TechnoDrive(2, 3, 0, 1);
         drive.setExpiration(0.1);
         drive.setSafetyEnabled(true);
         controller = new Controller(3);
-        compressor = new Compressor();
-        collector = new BallCollector(4);
+        collector = new BallCollector(0);
         timer = new Timer();
-        accelerator = new AccelerationUtil(drive);
-        lines = NetworkTable.getTable("GRIP/lines");
-        boot = new DasBoot(5);
-        compressor.stop();
+        arm = new LiftingArm(1);
+        //setup the USB camera for the SmartDashboard
+        //from http://www.chiefdelphi.com/forums/showpost.php?p=1425235&postcount=6
+        CameraServer server = CameraServer.getInstance();
+        server.setQuality(50);
+        server.startAutomaticCapture("cam1"); //"cam1" (or something like that) is the name of the camera and can be found from the roborio online dashboard at http://roborio-2239-frc.local/#Home
+
+        //set up the autochooser
+        //from http://wpilib.screenstepslive.com/s/4485/m/26401/l/255419-choosing-an-autonomous-program-from-smartdashboard
+        autoChooser = new SendableChooser();
+        autoChooser.addDefault("Easy Lowbar (default)", new EasyLowbar());
+        autoChooser.addObject("Harder Lowbar", new HarderLowbar());
+        SmartDashboard.putData("Autonomous mode chooser", autoChooser);
     }
 
     @Override
     public void autonomousInit() {
-        drive.tankDrive(0,0);
-        timer.reset();
-        timer.start();
+        //get the chosen auto program to run and run it.
+        //from http://wpilib.screenstepslive.com/s/4485/m/26401/l/255419-choosing-an-autonomous-program-from-smartdashboard
+        auto = (AutoFunction) autoChooser.getSelected();
+        auto.onStart(instance);
     }
 
     @Override
     public void autonomousPeriodic() {
-        accelerator.update();
-    }
-
-    @Override
-    /**
-     *  Starts timer to work as a clock for autonomous.
-     */
-    public void testInit(){
-        compressor.stop();
-        timer.start();
-    }
-
-    @Override
-    public void testPeriodic(){
-        final double[] DEFAULT_VALUE = new double[0];
-
-        double[] x1 = (double[]) lines.getValue("x1", DEFAULT_VALUE);
-        double[] x2 = (double[]) lines.getValue("x2", DEFAULT_VALUE);
-        double[] y1 = (double[]) lines.getValue("y1", DEFAULT_VALUE);
-        double[] y2 = (double[]) lines.getValue("y2", DEFAULT_VALUE);
-        double[] lengths = (double[]) lines.getValue("length", DEFAULT_VALUE);
-        double[] angles = (double[]) lines.getValue("angle", DEFAULT_VALUE);
-
-        System.out.println(Arrays.toString(x1));
-        System.out.println(Arrays.toString(x2));
-        System.out.println(Arrays.toString(y1));
-        System.out.println(Arrays.toString(y2));
-        System.out.println(Arrays.toString(lengths));
-        System.out.println(Arrays.toString(angles));
+        auto.onUpdate();
     }
 
     @Override
@@ -92,32 +79,100 @@ public class TechnoRobot extends IterativeRobot {
     public void teleopInit() {
         timer.stop();
         timer.reset(); //stops and resets the timer
-        compressor.start();
         drive.setSafetyEnabled(true);
-        drive.tankDrive(0, 0); //resets the speed to 0
+        this.stopAll(); //stop everything
     }
 
     @Override
     /**
      * Manual control over the robot during the competition
      */
-    public void teleopPeriodic(){
-        boot.update();
-        collector.update();
-        accelerator.update();
+    public void teleopPeriodic() {
+        double leftVal = -controller.getY(GenericHID.Hand.kLeft);
+        double rightVal = -controller.getY(GenericHID.Hand.kRight);
+        double fightThreshold = .7;
+        if (((getSign(leftVal)== -1 && getSign(rightVal)== 1) ||
+            (getSign(leftVal)== 1 && getSign(rightVal)== -1 )) && (Math.abs(leftVal)>fightThreshold || Math.abs(rightVal)>fightThreshold)){
 
-        drive.tankDrive(-controller.getY(GenericHID.Hand.kLeft), -controller.getY(GenericHID.Hand.kRight));
-
-        if(controller.getBumper(GenericHID.Hand.kLeft)) {
-            boot.kick();
+            if (Math.abs(leftVal)> Math.abs(rightVal)) {
+                rightVal= 0;
+            }
+            if (Math.abs(rightVal)> Math.abs(leftVal)) {
+                leftVal = 0;
+            }
+            if (Math.abs(rightVal) == Math.abs(leftVal)) {
+                leftVal = 0;
+                rightVal = 0;
+            }
         }
 
-        if(controller.getBumper(GenericHID.Hand.kRight)) {
-            collector.start();
+        //sets the direction and switchDirection
+        if (switchDirection == 0) { //waiting for it to be pressed
+            if (controller.getPOV() == 0) {
+                direction = -direction;
+                switchDirection = 1; //waiting for it to be released
+            }
+        }
+        if (switchDirection == 1) { //waiting for it to be released
+            if (controller.getPOV(0)!=0) {
+                switchDirection = 0; //waiting for it to be pressed
+            }
+        }
+
+        if (direction==-1) {
+            //swap the sides
+            double tempVal = leftVal;
+            leftVal = -rightVal;
+            rightVal = -tempVal;
+        }
+        drive.tankDrive(leftVal, rightVal);
+
+        /*
+        if (controller.getPOV() == 0) {
+            arm.lift();
+        } else if (controller.getPOV() == 180) {
+            arm.drop();
+        } else {
+            arm.stop();
+        }
+        */
+
+        if (controller.getBumper(GenericHID.Hand.kLeft)) {
+            arm.lift();
+        } else if (controller.getBumper(GenericHID.Hand.kRight)) {
+            arm.drop();
+        } else {
+            arm.stop();
+        }
+
+        if (controller.getTrigger(GenericHID.Hand.kLeft)) {
+            collector.in();
+        } else if (controller.getTrigger(GenericHID.Hand.kRight)) {
+            collector.out();
+        } else {
+            collector.stop();
+        }
+
+        /*
+        if (controller.getBu(GenericHID.Hand.kLeft)) {
+            //arm.refresh();
+            direction = -direction; //reverse the direction
+        }
+        */
+    }
+
+    private int getSign(double val) {
+        if (val == 0) return 0;
+        if (val < 0) {
+            return -1;
+        } else {
+            return 1;
         }
     }
 
-    public static AccelerationUtil getAccelerator() {
-        return instance.accelerator;
+    public void stopAll() {
+        drive.tankDrive(0, 0);
+        arm.stop();
+        collector.stop();
     }
 }

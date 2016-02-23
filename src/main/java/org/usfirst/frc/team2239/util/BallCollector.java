@@ -2,6 +2,7 @@ package org.usfirst.frc.team2239.util;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.VictorSP;
 
 /**
  * Collects boulders
@@ -9,25 +10,25 @@ import edu.wpi.first.wpilibj.Victor;
  * @author Technocrats
  */
 public class BallCollector {
-    private Victor motor;
-    private Timer timer;
+    private VictorSP motor;
 
     public BallCollector(int deviceId) {
-        motor = new Victor(deviceId);
+        motor = new VictorSP(deviceId);
         motor.set(0);
-        timer = new Timer();
+        motor.setInverted(true);
     }
 
-    public void start() {
-        motor.set(.7);
-        timer.start();
+    //to suck the boulder in
+    public void in() {
+        motor.set(.5);
     }
 
-    public void update() {
-        if(timer.hasPeriodPassed(4)) {
-            motor.set(0);
-            timer.stop();
-            timer.reset();
-        }
+    public void stop() {
+        motor.set(0);
+    }
+
+    //to spit the boulder out
+    public void out() {
+        motor.set(-1);
     }
 }
