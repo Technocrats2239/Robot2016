@@ -1,7 +1,0 @@
--classpath 'C:\\Users\\Robo User\\Desktop\\GradleRIO\\MiniBot\\build\\classes\\main;C:\\Users\\Robo User\\Desktop\\GradleRIO\\MiniBot\\build\\resources\\main;C:\\Users\\Robo User\\wpilib\\java\\extracted\\library\\lib\\WPILib.jar;C:\\Users\\Robo User\\wpilib\\java\\extracted\\library\\lib\\NetworkTables.jar'
--d 'C:\\Users\\Robo User\\Desktop\\GradleRIO\\MiniBot\\build\\docs\\javadoc'
--doctitle 'MiniBot API'
--quiet 
--windowtitle 'MiniBot API'
-'C:\\Users\\Robo User\\Desktop\\GradleRIO\\MiniBot\\src\\main\\java\\org\\usfirst\\frc\\team2239\\OurUtils.java'
-'C:\\Users\\Robo User\\Desktop\\GradleRIO\\MiniBot\\src\\main\\java\\org\\usfirst\\frc\\team2239\\Robot.java'
