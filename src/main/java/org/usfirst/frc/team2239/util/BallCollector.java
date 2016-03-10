@@ -1,7 +1,5 @@
 package org.usfirst.frc.team2239.util;
 
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.VictorSP;
 
 /**

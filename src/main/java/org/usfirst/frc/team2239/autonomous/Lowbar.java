@@ -12,14 +12,13 @@ public class Lowbar extends AutoFunction {
     //timer keeps track of time from the start of the current stage in seconds
     private Timer timer;
     //the current stage of movement
-    private int stage = 0;
-    //the time each stage runs for
-    private final double[] stageTimes = new double[] {2.4, .4, 2.7, 1};
+    private int stage;
     //the robot we will be using.
-    TechnoRobot theRobot;
+    private TechnoRobot theRobot;
 
     @Override
     public void onStart(TechnoRobot robot) {
+        stage = 0;
         timer = new Timer();
         timer.start();
         theRobot = robot;

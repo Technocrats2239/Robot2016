@@ -1,6 +1,8 @@
 package org.usfirst.frc.team2239;
 
-import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.RobotDrive;
 
 /**
  * Utility for driving the robot

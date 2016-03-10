@@ -1,10 +1,17 @@
 package org.usfirst.frc.team2239;
 
-import org.usfirst.frc.team2239.autonomous.*;
-import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import org.usfirst.frc.team2239.util.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team2239.autonomous.AutoFunction;
+import org.usfirst.frc.team2239.autonomous.DoNothing;
+import org.usfirst.frc.team2239.autonomous.Lowbar;
+import org.usfirst.frc.team2239.util.BallCollector;
+import org.usfirst.frc.team2239.util.Controller;
+import org.usfirst.frc.team2239.util.LiftingArm;
 
 /**
  * Technocrat's game handler
