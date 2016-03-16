@@ -3,6 +3,7 @@ package org.usfirst.frc.team2239;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Talon;
 
 /**
  * Utility for driving the robot
@@ -14,12 +15,12 @@ public class TechnoDrive extends RobotDrive {
     public static final double MAIN_SPEED = 1;
 
     public TechnoDrive(int leftMotorChannel, int rightMotorChannel) {
-        super(new CANTalon(leftMotorChannel), new CANTalon(rightMotorChannel));
+        super(new Talon(leftMotorChannel), new Talon(rightMotorChannel));
     }
 
     public TechnoDrive(int frontLeftMotor, int rearLeftMotor, int frontRightMotor, int rearRightMotor) {
-        super(new CANTalon(frontLeftMotor), new CANTalon(rearLeftMotor),
-                new CANTalon(frontRightMotor), new CANTalon(rearRightMotor)); //calls the RobotDrive constructor
+        super(new Talon(frontLeftMotor), new Talon(rearLeftMotor),
+                new Talon(frontRightMotor), new Talon(rearRightMotor)); //calls the RobotDrive constructor
     }
 
     public double[] getMotorValues() {

@@ -43,7 +43,7 @@ public class TechnoRobot extends IterativeRobot {
      */
     public void robotInit() {
         instance = this;
-        drive = new TechnoDrive(2, 3, 0, 1);
+        drive = new TechnoDrive(4, 5, 2, 3);
         drive.setExpiration(0.1);
         drive.setSafetyEnabled(true);
         controller = new Controller(3);
