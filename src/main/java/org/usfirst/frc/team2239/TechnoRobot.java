@@ -90,21 +90,6 @@ public class TechnoRobot extends IterativeRobot {
     public void teleopPeriodic() {
         double leftVal = -controller.getY(GenericHID.Hand.kLeft);
         double rightVal = -controller.getY(GenericHID.Hand.kRight);
-        double fightThreshold = .7;
-        if (((getSign(leftVal)== -1 && getSign(rightVal)== 1) ||
-            (getSign(leftVal)== 1 && getSign(rightVal)== -1 )) && (Math.abs(leftVal)>fightThreshold || Math.abs(rightVal)>fightThreshold)){
-
-            if (Math.abs(leftVal)> Math.abs(rightVal)) {
-                rightVal= 0;
-            }
-            if (Math.abs(rightVal)> Math.abs(leftVal)) {
-                leftVal = 0;
-            }
-            if (Math.abs(rightVal) == Math.abs(leftVal)) {
-                leftVal = 0;
-                rightVal = 0;
-            }
-        }
 
         //sets the direction and switchDirection
         if (switchDirection == 0) { //waiting for it to be pressed
