@@ -37,8 +37,9 @@ public abstract class AutoFunction {
      */
     private double[] parse(String stringyArray) {
         return Arrays.stream(stringyArray.substring(1, stringyArray.length()-1).split(","))
-                .mapToDouble(Double::parseDouble)
-                .toArray();
+                .filter(s -> !s.isEmpty())          //remove empty strings
+                .mapToDouble(Double::parseDouble)   //map string to double
+                .toArray();                         //make it an array again
     }
 
     public void refresh() {
