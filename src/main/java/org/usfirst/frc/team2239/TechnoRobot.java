@@ -50,12 +50,6 @@ public class TechnoRobot extends IterativeRobot {
         collector = new BallCollector(0);
         timer = new Timer();
         arm = new LiftingArm(1);
-        //setup the USB camera for the SmartDashboard
-        //from http://www.chiefdelphi.com/forums/showpost.php?p=1425235&postcount=6
-        CameraServer server = CameraServer.getInstance();
-        server.setQuality(50);
-        server.startAutomaticCapture("cam1"); //"cam1" (or something like that) is the name of the camera and can be found from the roborio online dashboard at http://roborio-2239-frc.local/#Home
-
         //set up the autochooser
         //from http://wpilib.screenstepslive.com/s/4485/m/26401/l/255419-choosing-an-autonomous-program-from-smartdashboard
         autoChooser = new SendableChooser();
