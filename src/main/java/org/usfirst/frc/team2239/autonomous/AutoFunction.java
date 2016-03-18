@@ -102,6 +102,7 @@ public abstract class AutoFunction {
         new Lowbar();
         new Portcullis();
         new TeeterTotter();
+        new InclinedPlanes();
         SmartDashboard.putData("Autonomous mode chooser", chooser);
     }
 }
