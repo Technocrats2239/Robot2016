@@ -101,6 +101,7 @@ public abstract class AutoFunction {
         new DoNothing();
         new Lowbar();
         new Portcullis();
+        new SidewaysGate();
         SmartDashboard.putData("Autonomous mode chooser", chooser);
     }
 }
