@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.Preferences;
 /**
  * What to do if in front of the Portcullis thingy (the vertical gate thing)
  *
- * @author Technocrats
+ * @author Dean Bassett and London Lomanstone
  */
 public class Portcullis extends AutoFunction {
     private double robotMoveSpeed;

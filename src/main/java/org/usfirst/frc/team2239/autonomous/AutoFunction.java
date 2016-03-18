@@ -14,7 +14,7 @@ import java.util.Arrays;
  * It will also have an iterate function that will use the timer initiated in init() to keep track of time.
  *
  *
- * @author Technocrats
+ * @author Dean Bassett and London Lomanstone
  */
 public abstract class AutoFunction {
     private static SendableChooser chooser;

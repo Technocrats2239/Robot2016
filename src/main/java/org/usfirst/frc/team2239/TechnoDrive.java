@@ -34,9 +34,9 @@ public class TechnoDrive extends RobotDrive {
 
     private double accelerateHelper(double from, double to) {
         if(from < to) {
-            return Math.max(to, from - .005);
+            return Math.max(to, from - .0025);
         } else {
-            return Math.min(to, from + .005);
+            return Math.min(to, from + .0025);
         }
     }
 

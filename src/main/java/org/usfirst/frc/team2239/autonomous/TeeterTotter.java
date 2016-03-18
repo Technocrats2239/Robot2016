@@ -1,9 +1,9 @@
 package org.usfirst.frc.team2239.autonomous;
 
 /**
- * How to open the sideways openning gate
+ * What to do if in front of the Cheval de Frise (the teeter totter lookin things)
  *
- * @author Technocrats
+ * @author Dean Bassett
  */
 public class TeeterTotter extends AutoFunction {
 

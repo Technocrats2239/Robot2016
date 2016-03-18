@@ -3,7 +3,7 @@ package org.usfirst.frc.team2239.autonomous;
 /**
  * What to do if in front of the Low Bar
  *
- * @author Technocrats
+ * @author London Lomanstone
  */
 public class Lowbar extends AutoFunction {
     @Override
