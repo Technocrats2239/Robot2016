@@ -105,6 +105,7 @@ public abstract class AutoFunction {
         new InclinedPlanes();
         new RockWall();
         new Moat();
+        new RoughTerrain();
         SmartDashboard.putData("Autonomous mode chooser", chooser);
     }
 }

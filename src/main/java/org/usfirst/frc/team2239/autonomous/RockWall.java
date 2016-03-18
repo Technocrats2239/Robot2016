@@ -5,6 +5,24 @@ package org.usfirst.frc.team2239.autonomous;
  *
  * @author Dean Bassett
  */
-public class RockWall extends InclinedPlanes {
-    //do the same thing, only made a new class to add to the radio button list
+public class RockWall extends AutoFunction {
+    /**
+     * Each time autonomousPeriodic() gets called
+     */
+    @Override
+    protected void onUpdate() {
+        if(stage == 0) {
+            drive.accelerateTo(.5, .5);
+        }
+    }
+
+    /**
+     * Default stage times
+     *
+     * @return times for the different stages
+     */
+    @Override
+    protected double[] defaultTimes() {
+        return new double[]{7};
+    }
 }
