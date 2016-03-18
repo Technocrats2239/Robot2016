@@ -3,11 +3,7 @@ package org.usfirst.frc.team2239;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2239.autonomous.AutoFunction;
-import org.usfirst.frc.team2239.autonomous.DoNothing;
-import org.usfirst.frc.team2239.autonomous.Lowbar;
 import org.usfirst.frc.team2239.util.BallCollector;
 import org.usfirst.frc.team2239.util.Controller;
 import org.usfirst.frc.team2239.util.LiftingArm;
@@ -56,13 +52,13 @@ public class TechnoRobot extends IterativeRobot {
         //get the chosen auto program to run and run it.
         //from http://wpilib.screenstepslive.com/s/4485/m/26401/l/255419-choosing-an-autonomous-program-from-smartdashboard
         auto = AutoFunction.getChosen();
-        auto.onStart(instance);
+        auto.start(this);
         auto.refresh();
     }
 
     @Override
     public void autonomousPeriodic() {
-        auto.onUpdate();
+        auto.update();
     }
 
     @Override

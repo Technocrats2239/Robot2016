@@ -1,8 +1,10 @@
 package org.usfirst.frc.team2239.autonomous;
 
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team2239.TechnoDrive;
 import org.usfirst.frc.team2239.TechnoRobot;
 
 import java.util.Arrays;
@@ -19,6 +21,10 @@ public abstract class AutoFunction {
     protected double[] stageTimes;
     //create a unique id for the class based on the class' name
     private String id = getClass().getSimpleName();
+    protected int stage;
+    protected Timer timer;
+    protected TechnoRobot robot;
+    protected TechnoDrive drive;
 
     protected AutoFunction() {
         //create the SendableChooser object if not already created
@@ -56,8 +62,39 @@ public abstract class AutoFunction {
         stageTimes = parse(Preferences.getInstance().getString(id+"_times", "[]"));
     }
 
-    public abstract void onStart(TechnoRobot theRobot);
-    public abstract void onUpdate();
+    public void start(TechnoRobot robot) {
+        this.stage = 0;
+        this.timer = new Timer();
+        this.timer.start();
+        this.robot = robot;
+        this.drive = robot.drive;
+        onStart();
+    }
+
+    public void update() {
+        if (stage >= stageTimes.length) return; //if we've passed the last stage, just don't do anything
+
+        if (timer.hasPeriodPassed(stageTimes[stage])) {
+            stage++;
+        }
+
+        onUpdate();
+    }
+
+    /**
+     * Optional override
+     */
+    protected void onStart(){}
+
+    /**
+     * Each time autonomousPeriodic() gets called
+     */
+    protected abstract void onUpdate();
+
+    /**
+     * Default stage times
+     * @return times for the different stages
+     */
     protected abstract double[] defaultTimes();
 
     public static void register() {
