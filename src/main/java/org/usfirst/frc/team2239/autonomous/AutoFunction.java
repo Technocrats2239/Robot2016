@@ -106,6 +106,7 @@ public abstract class AutoFunction {
         new RockWall();
         new Moat();
         new RoughTerrain();
-        SmartDashboard.putData("Autonomous mode chooser", chooser);
+
+        SmartDashboard.putData("Auto", chooser);
     }
 }
