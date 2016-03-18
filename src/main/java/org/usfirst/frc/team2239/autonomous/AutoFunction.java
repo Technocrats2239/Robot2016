@@ -104,6 +104,7 @@ public abstract class AutoFunction {
         new TeeterTotter();
         new InclinedPlanes();
         new RockWall();
+        new Moat();
         SmartDashboard.putData("Autonomous mode chooser", chooser);
     }
 }
