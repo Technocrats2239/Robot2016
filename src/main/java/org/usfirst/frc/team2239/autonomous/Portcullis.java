@@ -3,16 +3,21 @@ package org.usfirst.frc.team2239.autonomous;
 import edu.wpi.first.wpilibj.Preferences;
 
 /**
- * What to do if in front of the PorteCullis thingy (the vertical gate thing)
+ * What to do if in front of the Portcullis thingy (the vertical gate thing)
  *
  * @author Technocrats
  */
-public class Portecullis extends AutoFunction {
+public class Portcullis extends AutoFunction {
     private double robotMoveSpeed;
 
     @Override
     public void onStart() {
-        robotMoveSpeed = Preferences.getInstance().getDouble("PorteCullis_speed", .2);
+        if(!Preferences.getInstance().containsKey("Portcullis_speed")) {
+            Preferences.getInstance().putDouble("Portcullis_speed", .2);
+            robotMoveSpeed = .2;
+        } else {
+            robotMoveSpeed = Preferences.getInstance().getDouble("Portcullis_speed", .2);
+        }
     }
 
     @Override

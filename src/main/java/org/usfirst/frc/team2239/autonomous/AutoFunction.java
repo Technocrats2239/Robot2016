@@ -100,7 +100,7 @@ public abstract class AutoFunction {
     public static void register() {
         new DoNothing();
         new Lowbar();
-        new Portecullis();
+        new Portcullis();
         SmartDashboard.putData("Autonomous mode chooser", chooser);
     }
 }
