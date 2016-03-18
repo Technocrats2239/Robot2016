@@ -103,6 +103,7 @@ public abstract class AutoFunction {
         new Portcullis();
         new TeeterTotter();
         new InclinedPlanes();
+        new RockWall();
         SmartDashboard.putData("Autonomous mode chooser", chooser);
     }
 }
