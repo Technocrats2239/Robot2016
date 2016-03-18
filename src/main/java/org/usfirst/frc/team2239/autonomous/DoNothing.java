@@ -16,4 +16,9 @@ public class DoNothing extends AutoFunction {
     @Override
     public void onUpdate() {
     }
+
+    @Override
+    protected double[] defaultTimes() {
+        return new double[0];
+    }
 }

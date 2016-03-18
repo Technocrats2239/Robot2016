@@ -22,8 +22,6 @@ public class TechnoRobot extends IterativeRobot {
     //Also, when getting values from the joysticks, they are negated to reverse the direction before being passed to any other function.
 
     public static TechnoRobot instance;
-    //from http://wpilib.screenstepslive.com/s/4485/m/26401/l/255419-choosing-an-autonomous-program-from-smartdashboard
-    private SendableChooser autoChooser;
 
     public TechnoDrive drive;  // class that handles basic drive operations
     public Controller controller;  // set to ID 3 in DriverStation
@@ -49,20 +47,17 @@ public class TechnoRobot extends IterativeRobot {
         collector = new BallCollector(0);
         timer = new Timer();
         arm = new LiftingArm(1);
-        //set up the autochooser
-        //from http://wpilib.screenstepslive.com/s/4485/m/26401/l/255419-choosing-an-autonomous-program-from-smartdashboard
-        autoChooser = new SendableChooser();
-        autoChooser.addDefault("Do Nothing", new DoNothing());
-        autoChooser.addObject("Easy Lowbar", new Lowbar());
-        SmartDashboard.putData("Autonomous mode chooser", autoChooser);
+
+        AutoFunction.register();
     }
 
     @Override
     public void autonomousInit() {
         //get the chosen auto program to run and run it.
         //from http://wpilib.screenstepslive.com/s/4485/m/26401/l/255419-choosing-an-autonomous-program-from-smartdashboard
-        auto = (AutoFunction) autoChooser.getSelected();
+        auto = AutoFunction.getChosen();
         auto.onStart(instance);
+        auto.refresh();
     }
 
     @Override
