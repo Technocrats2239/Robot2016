@@ -8,11 +8,6 @@ import org.usfirst.frc.team2239.TechnoRobot;
  * @author Technocrats
  */
 public class DoNothing extends AutoFunction {
-
-    @Override
-    public void onStart(TechnoRobot robot) {
-    }
-
     @Override
     public void onUpdate() {
     }
