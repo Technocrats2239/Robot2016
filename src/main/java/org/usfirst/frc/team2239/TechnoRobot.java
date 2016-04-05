@@ -18,16 +18,15 @@ public class TechnoRobot extends IterativeRobot {
 	//Also, when getting values from the joysticks, they are negated to reverse the direction before being passed to
     // any other function.
 
-	public static TechnoRobot instance;
+	private static TechnoRobot instance;
 
 	public TechnoDrive drive;  // class that handles basic drive operations
-	public Controller controller;  // set to ID 3 in DriverStation
+	private Controller controller;  // set to ID 3 in DriverStation
 	public LiftingArm arm;
 	public BallCollector collector;
 	public int direction = 1; //ONLY FOR TELEOP REMOTE DRIVING: 1 means the ball collector is the front, -1 means the
     // arm is in the front
-	private int switchingDirection = 0; //0 when waiting for the button to be pressed. Once pressed, it switches the
-    // direction and then switchingDirection is 1 until the button is released
+	private boolean switchingDirection = false; //false when waiting for button press, true when pressing button
 
 	private Timer timer;
 	private AutoFunction auto;
@@ -76,7 +75,7 @@ public class TechnoRobot extends IterativeRobot {
 		timer.reset(); //stops and resets the timer
 		drive.setSafetyEnabled(true);
 		this.stopAll(); //stop everything
-		switchingDirection = 0;
+		direction = 1;
 	}
 
 	@Override
@@ -88,15 +87,14 @@ public class TechnoRobot extends IterativeRobot {
 		double rightVal = -controller.getY(GenericHID.Hand.kRight);
 
 		//sets the direction and switchingDirection
-		if (switchingDirection == 0) { //waiting for it to be pressed
+		if (!switchingDirection) { //waiting for it to be pressed
 			if (controller.getPOV() == 0) {
 				direction = -direction;
-				switchingDirection = 1; //waiting for it to be released
+				switchingDirection = true; //waiting for it to be released
 			}
-		}
-		if (switchingDirection == 1) { //waiting for it to be released
+		} else { //waiting for it to be released
 			if (controller.getPOV(0) != 0) {
-				switchingDirection = 0; //waiting for it to be pressed
+				switchingDirection = false; //waiting for it to be pressed
 			}
 		}
 
@@ -107,16 +105,6 @@ public class TechnoRobot extends IterativeRobot {
 			rightVal = -tempVal;
 		}
 		drive.tankDrive(leftVal, rightVal);
-
-        /*
-        if (controller.getPOV() == 0) {
-            arm.lift();
-        } else if (controller.getPOV() == 180) {
-            arm.drop();
-        } else {
-            arm.stop();
-        }
-        */
 
 		if (controller.getBumper(GenericHID.Hand.kLeft)) {
 			arm.lift();
