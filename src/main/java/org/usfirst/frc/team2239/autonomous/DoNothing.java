@@ -8,12 +8,12 @@ import org.usfirst.frc.team2239.TechnoRobot;
  * @author Technocrats
  */
 public class DoNothing extends AutoFunction {
-    @Override
-    public void onUpdate() {
-    }
+	@Override
+	public void onUpdate() {
+	}
 
-    @Override
-    protected double[] defaultTimes() {
-        return new double[0];
-    }
+	@Override
+	protected double[] defaultTimes() {
+		return new double[0];
+	}
 }

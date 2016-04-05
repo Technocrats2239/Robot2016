@@ -8,25 +8,25 @@ import edu.wpi.first.wpilibj.VictorSP;
  * @author Technocrats
  */
 public class BallCollector {
-    private VictorSP motor;
+	private VictorSP motor;
 
-    public BallCollector(int deviceId) {
-        motor = new VictorSP(deviceId);
-        motor.set(0);
-        motor.setInverted(true);
-    }
+	public BallCollector(int deviceId) {
+		motor = new VictorSP(deviceId);
+		motor.set(0);
+		motor.setInverted(true);
+	}
 
-    //to spit the boulder out
-    public void spit() {
-        motor.set(-1);
-    }
+	//to spit the boulder out
+	public void spit() {
+		motor.set(-1);
+	}
 
-    //to suck the boulder in
-    public void swallow() {
-        motor.set(.75);
-    }
+	//to suck the boulder in
+	public void swallow() {
+		motor.set(.75);
+	}
 
-    public void stop() {
-        motor.set(0);
-    }
+	public void stop() {
+		motor.set(0);
+	}
 }

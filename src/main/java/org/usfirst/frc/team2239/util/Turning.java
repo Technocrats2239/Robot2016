@@ -6,5 +6,5 @@ package org.usfirst.frc.team2239.util;
  * @author (name)
  */
 public class Turning {
-    
+
 }

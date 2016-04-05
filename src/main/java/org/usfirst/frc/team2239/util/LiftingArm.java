@@ -10,32 +10,32 @@ import edu.wpi.first.wpilibj.VictorSP;
  * @author Technocrats
  */
 public class LiftingArm {
-    private VictorSP motor;
-    private Timer timer;
-    private double speed;
+	private VictorSP motor;
+	private Timer timer;
+	private double speed;
 
-    public LiftingArm(int channel) {
-        this.motor = new VictorSP(channel);
-        this.timer = new Timer();
-        refresh();
-    }
+	public LiftingArm(int channel) {
+		this.motor = new VictorSP(channel);
+		this.timer = new Timer();
+		refresh();
+	}
 
-    public void refresh() {
-        speed = Preferences.getInstance().getDouble("ArmSpeed", .5);
-        System.out.println("New arm speed: " + speed);
-    }
+	public void refresh() {
+		speed = Preferences.getInstance().getDouble("ArmSpeed", .5);
+		System.out.println("New arm speed: " + speed);
+	}
 
-    public void lift() {
-        timer.start();
-        motor.set(speed);
-    }
+	public void lift() {
+		timer.start();
+		motor.set(speed);
+	}
 
-    public void drop() {
-        timer.start();
-        motor.set(-speed);
-    }
+	public void drop() {
+		timer.start();
+		motor.set(-speed);
+	}
 
-    public void stop() {
-        motor.set(0);
-    }
+	public void stop() {
+		motor.set(0);
+	}
 }
